@@ -1,0 +1,178 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body,
+#root{
+    width:100%;
+    height:100%;
+    font-family: "Segoe UI", sans-serif;
+    background:#1b1d21;
+}
+
+.game{
+    height:100vh;
+    display:grid;
+    grid-template-columns:260px 1fr 260px;
+    gap:25px;
+    padding:25px;
+    background:#1b1d21;
+}
+
+.sidebar{
+    background:#2a2d34;
+    border-radius:18px;
+    padding:25px;
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#f4c542;
+}
+
+.card{
+    background:#383c45;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:20px;
+}
+
+.card p{
+    margin:10px 0;
+}
+
+.history{
+    flex:1;
+    overflow:auto;
+}
+
+.history p{
+    background:#3d414b;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.board-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.board-wrapper{
+    width:min(75vh, calc(100vw - 620px));
+    aspect-ratio:1;
+    border-radius:20px;
+    overflow:hidden;
+
+    box-shadow:
+        0 0 40px rgba(0,0,0,.45),
+        0 0 15px rgba(244,197,66,.15);
+}
+
+button{
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#81b64c;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    background:#6fa341;
+    transform:translateY(-2px);
+}
+
+.player{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#f4c542;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:bold;
+    color:#222;
+    font-size:18px;
+}
+
+.player-info h3{
+    font-size:16px;
+}
+
+.player-info p{
+    color:#c8c8c8;
+    font-size:14px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+  background: #3d414b;
+  border-radius: 8px;
+}
+
+.move-index {
+  color: #f4c542;
+  font-weight: bold;
+  min-width: 25px;
+}
+
+.move-white {
+  color: white;
+  flex: 1;
+}
+
+.move-black {
+  color: #c8c8c8;
+  flex: 1;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #f4c542;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: #ffd35a;
+}
