@@ -1,22 +1,10 @@
-const sqlite3 = require("sqlite3").verbose();
+const { Pool } = require("pg");
 
-const db = new sqlite3.Database("./database.db", (err) => {
-    if (err) {
-        console.error(err);
-    } else {
-        console.log("Connected to SQLite.");
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
     }
 });
 
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS repertoires (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            color TEXT NOT NULL,
-            data TEXT NOT NULL
-        )
-    `);
-});
-
-module.exports = db;
+module.exports = pool;
