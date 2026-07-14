@@ -100,7 +100,7 @@ console.log(Array.isArray(json));
       <div className="overlay">
         <div className="hero">
 
-        <h1>♟ Chess React</h1>
+        <h1>♟ Chessy</h1>
 
         <div className="home-content">
 
