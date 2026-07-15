@@ -6,7 +6,7 @@ function Login(){
 
     const navigate = useNavigate();
 
-    const [email,setEmail]=useState("");
+    const [username,setUsername]=useState("");
     const [password,setPassword]=useState("");
 
 
@@ -20,7 +20,7 @@ function Login(){
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
-                    email,
+                    username,
                     password
                 })
             }
@@ -56,9 +56,9 @@ function Login(){
 
 
             <input
-                placeholder="Email"
-                value={email}
-                onChange={e=>setEmail(e.target.value)}
+                placeholder="Username"
+                value={username}
+                onChange={e=>setUsername(e.target.value)}
             />
 
 

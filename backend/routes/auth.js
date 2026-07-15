@@ -46,71 +46,46 @@ router.post("/register", async (req,res)=>{
 // LOGIN
 router.post("/login", async(req,res)=>{
 
-    try{
+    const {username,password}=req.body;
 
-        const {email,password}=req.body;
+    const result = await db.query(
+        "SELECT * FROM users WHERE username=$1",
+        [username]
+    );
 
-
-        const result = await db.query(
-            `
-            SELECT *
-            FROM users
-            WHERE email=$1
-            `,
-            [email]
-        );
-
-
-        if(result.rows.length===0)
-            return res.status(401).json({
-                success:false,
-                error:"Invalid credentials"
-            });
-
-
-        const user=result.rows[0];
-
-
-        const valid = await bcrypt.compare(
-            password,
-            user.password
-        );
-
-
-        if(!valid)
-            return res.status(401).json({
-                success:false,
-                error:"Invalid credentials"
-            });
-
-
-        const token = jwt.sign(
-            {
-                id:user.id,
-                username:user.username
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn:"7d"
-            }
-        );
-
-
-        res.json({
-            success:true,
-            token,
-            username:user.username
-        });
-
-
-    }catch(err){
-
-        res.status(500).json({
+    if(result.rows.length===0){
+        return res.status(401).json({
             success:false,
-            error:err.message
+            error:"Invalid credentials"
         });
-
     }
+
+    const user=result.rows[0];
+
+    const valid = await bcrypt.compare(
+        password,
+        user.password
+    );
+
+    if(!valid){
+        return res.status(401).json({
+            success:false,
+            error:"Invalid credentials"
+        });
+    }
+
+    const token = jwt.sign(
+        {
+            id:user.id,
+            username:user.username
+        },
+        process.env.JWT_SECRET
+    );
+
+    res.json({
+        success:true,
+        token
+    });
 
 });
 
