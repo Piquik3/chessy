@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate, Link} from "react-router-dom";
+import "./Login.css"
 
 
 function Login(){
@@ -50,38 +51,39 @@ function Login(){
 
     return (
 
-        <div>
+        <div className="auth-page">
+            <div className="auth-card">
 
-            <h1>Login</h1>
-
-
-            <input
-                placeholder="Username"
-                value={username}
-                onChange={e=>setUsername(e.target.value)}
-            />
+                <h1>Login</h1>
 
 
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e=>setPassword(e.target.value)}
-            />
+                <input
+                    placeholder="Username"
+                    value={username}
+                    onChange={e=>setUsername(e.target.value)}
+                />
 
 
-            <button onClick={login}>
-                Login
-            </button>
-
-            <p>
-                Don't have an account?{" "}
-                <Link to="/register">
-                    Register
-                </Link>
-            </p>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={e=>setPassword(e.target.value)}
+                />
 
 
+                <button onClick={login}>
+                    Login
+                </button>
+
+                <p>
+                    Don't have an account?{" "}
+                    <Link to="/register">
+                        Register
+                    </Link>
+                </p>
+
+            </div>
         </div>
 
     );

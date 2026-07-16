@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "./Register.css"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -53,8 +54,8 @@ function Register() {
     }
 
     return (
-        <div className="login-page">
-            <div className="login-card">
+        <div className="auth-page">
+            <div className="auth-card">
 
                 <h1>♟ Chessy</h1>
                 <h2>Create an account</h2>
