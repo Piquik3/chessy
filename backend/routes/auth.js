@@ -11,23 +11,22 @@ router.post("/register", async (req,res)=>{
 
     try{
 
-        const {username,email,password} = req.body;
+        const { username, password } = req.body;
 
-        const hashed = await bcrypt.hash(password,10);
+        const hashed = await bcrypt.hash(password, 10);
 
-        const [result] = await db.query(
+        const result = await db.query(
             `
-            INSERT INTO users(username,email,password)
-            VALUES($1,$2,$3)
+            INSERT INTO users(username,password)
+            VALUES($1,$2)
             RETURNING id
             `,
-            [username,email,hashed]
+            [username, hashed]
         );
 
-
         res.json({
-            success:true,
-            id:result[0].id
+            success: true,
+            id: result.rows[0].id
         });
 
 
@@ -44,9 +43,9 @@ router.post("/register", async (req,res)=>{
 
 
 // LOGIN
-router.post("/login", async(req,res)=>{
-
-    const {username,password}=req.body;
+router.post("/login", async (req, res) => {
+    try {
+        const {username,password}=req.body;
 
     const result = await db.query(
         "SELECT * FROM users WHERE username=$1",
@@ -87,6 +86,14 @@ router.post("/login", async(req,res)=>{
         token
     });
 
+    } catch (err) {
+        console.error(err);
+
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
+    }
 });
 
 
