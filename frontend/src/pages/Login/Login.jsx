@@ -3,80 +3,66 @@ import {useNavigate, Link} from "react-router-dom";
 import "./Login.css"
 
 
-function Login(){
-
+function Login() {
     const navigate = useNavigate();
 
-    const [username,setUsername]=useState("");
-    const [password,setPassword]=useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-
-    async function login(){
+    async function login(e) {
+        e.preventDefault();
 
         const res = await fetch(
             `${import.meta.env.VITE_API_URL}/api/auth/login`,
             {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                body:JSON.stringify({
+                body: JSON.stringify({
                     username,
-                    password
-                })
+                    password,
+                }),
             }
         );
 
+        const json = await res.json();
 
-        const json=await res.json();
-
-
-        if(json.success){
-
-            localStorage.setItem(
-                "token",
-                json.token
-            );
-
+        if (json.success) {
+            localStorage.setItem("token", json.token);
             localStorage.setItem("username", username);
-
             navigate("/");
-
-        }else{
-
+        } else {
             alert(json.error);
-
         }
-
     }
 
-
     return (
-
         <div className="auth-page">
             <div className="auth-card">
 
                 <h1>Login</h1>
 
+                <form onSubmit={login}>
 
-                <input
-                    placeholder="Username"
-                    value={username}
-                    onChange={e=>setUsername(e.target.value)}
-                />
+                    <input
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
 
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e=>setPassword(e.target.value)}
-                />
+                    <button type="submit">
+                        Login
+                    </button>
 
-
-                <button onClick={login}>
-                    Login
-                </button>
+                </form>
 
                 <p>
                     Don't have an account?{" "}
@@ -87,9 +73,7 @@ function Login(){
 
             </div>
         </div>
-
     );
-
 }
 
 
