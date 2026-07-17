@@ -12,6 +12,9 @@ function Home() {
   const [newName, setNewName] = useState("");
   const [newColor, setNewColor] = useState("white");
 
+  const username = localStorage.getItem("username");
+
+
   async function createOpening() {
 
   if (!newName.trim()) {
@@ -51,6 +54,12 @@ function Home() {
   }
 
 }
+
+    function logout() {
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
+
 
   async function deleteOpening(id, name){
 
@@ -101,6 +110,13 @@ console.log(Array.isArray(json));
         <div className="hero">
 
         <h1>♟ Chessy</h1>
+
+        <div className="top-bar">
+            <span>👤 {username}</span>
+            <button className="logout-button" onClick={logout}>
+                Logout
+            </button>
+        </div>
 
         <div className="home-content">
 

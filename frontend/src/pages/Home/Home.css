@@ -390,3 +390,26 @@ button {
     }
 
 }
+
+.logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    padding: 10px 18px;
+
+    background: #d32f2f;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.logout-button:hover {
+    background: #b71c1c;
+}

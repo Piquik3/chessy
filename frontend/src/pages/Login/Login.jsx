@@ -38,6 +38,8 @@ function Login(){
                 json.token
             );
 
+            localStorage.setItem("username", username);
+
             navigate("/");
 
         }else{
