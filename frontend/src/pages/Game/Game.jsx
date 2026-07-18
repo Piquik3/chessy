@@ -216,6 +216,8 @@ function getMoveColor(type) {
 
         <hr />
 
+        <div style={{ marginBottom: 20 }}></div>
+
         <h3>Comment</h3>
 
         <div

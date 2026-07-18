@@ -280,7 +280,7 @@ function Theory() {
 
         <div style={{ marginBottom: 20 }}>
 
-          <h3>Opening :</h3>
+          <h3>Opening</h3>
 
           <input
             type="text"
@@ -539,8 +539,6 @@ function Theory() {
           <aside className="sidebar">
 
             <h2>Move annotation</h2>
-
-            <hr />
 
             <h3>Classification</h3>
 
