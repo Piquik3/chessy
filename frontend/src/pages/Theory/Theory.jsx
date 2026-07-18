@@ -224,6 +224,8 @@ function Theory() {
       n.children[move.san] = {
         move: move.san,
         prob: 1,
+        type: "",
+        comment: "",
         children: {}
       };
     }
@@ -237,17 +239,17 @@ function Theory() {
 
   // ▶️ avancer automatiquement dans le répertoire
   function nextMove() {
-    const currentNode = getNode();
+    const node = getNode();
 
     if (
-      !currentNode ||
-      !currentNode.children ||
-      Object.keys(currentNode.children).length === 0
+      !node ||
+      !node.children ||
+      Object.keys(node.children).length === 0
     ) {
       return; // Fin de variante : on ne fait rien
     }
 
-    const [move] = Object.entries(currentNode.children).sort(
+    const [move] = Object.entries(node.children).sort(
       (a, b) => (b[1].prob ?? 0) - (a[1].prob ?? 0)
     )[0];
 
@@ -534,98 +536,123 @@ function Theory() {
 
       {/* ======== STOCKFISH ======== */}
 
-      <aside className="sidebar">
+          <aside className="sidebar">
 
-        <h2>Analyse</h2>
+            <h2>Move annotation</h2>
 
-        <p style={{ opacity: 0.6 }}>
-          Analyse Stockfish 
-        </p>
+            <p style={{ opacity: 0.6 }}>
+                {node?.move || "Initial position"}
+            </p>
 
-        <hr />
+            <hr />
 
-        <div style={{ marginBottom: 20 }}></div>
+            <h3>Classification</h3>
 
-        <p>Evaluation : </p>
+            <table
+                style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    marginTop: "10px"
+                }}
+            >
+                <tbody>
 
-        <hr/>
+                    {[
+                        { value: "brillant", label: "!! Brillant move" },
+                        { value: "good", label: "! Good move" },
+                        { value: "interesting", label: "!? Interesting move" },
+                        { value: "inaccuracy", label: "?! Inaccuracy" },
+                        { value: "mistake", label: "? Mistake" },
+                        { value: "blunder", label: "?? Blunder" }
+                    ].map(type => (
 
-        <div style={{ marginBottom: 5 }}></div>
+                        <tr
+                            key={type.value}
+                            onClick={() => {
 
-        <h3>
-        {scoreText}
-        </h3>
+                                const newTree = structuredClone(tree);
 
-        <div style={{ marginBottom: 20 }}></div>
+                                let node = newTree.data;
 
-        <p>Depth : </p>
+                                for (const move of path) {
+                                    node = node.children[move];
+                                }
 
-        <hr/>
+                                node.type = type.value;
 
-        <div style={{ marginBottom: 5 }}></div>
+                                setTree(newTree);
 
-        <h3>
-        {depth}
-        </h3>
+                            }}
+                            style={{
+                                cursor: "pointer",
+                                background:
+                                    node?.type === type.value
+                                        ? "#3b82f6"
+                                        : "transparent",
+                                color:
+                                    node?.type === type.value
+                                        ? "white"
+                                        : "inherit"
+                            }}
+                        >
+                            <td
+                                style={{
+                                    padding: "10px",
+                                    border: "1px solid #555"
+                                }}
+                            >
+                                {type.label}
+                            </td>
 
-        <div style={{ marginBottom: 20 }}></div>
+                            <td
+                                style={{
+                                    width: "40px",
+                                    textAlign: "center",
+                                    border: "1px solid #555"
+                                }}
+                            >
+                                {node?.type === type.value ? "✓" : ""}
+                            </td>
 
-        <h3>Best moves :</h3>
+                        </tr>
 
-        <hr/>
-        
-        <div style={{ marginBottom: 5 }}></div>
+                    ))}
 
-        <div className="history-list">
+                </tbody>
+            </table>
 
-        {
-        bestMoves.map((move)=>(
+            <h3 style={{ marginTop: "25px" }}>
+                Comment
+            </h3>
 
-        <div
-          key={move.rank}
-          style={{
-          display:"flex",
-          justifyContent:"space-between"
-          }}
-          >
+            <textarea
+                rows={8}
+                style={{
+                    width: "100%",
+                    padding: "10px",
+                    boxSizing: "border-box",
+                    resize: "vertical"
+                }}
+                value={node?.comment || ""}
+                onChange={(e) => {
 
-          <span>
+                    const newTree = structuredClone(tree);
 
-          {move.rank}.
-          &nbsp;
-          ♟ {convertUCI(move.move)}
+                    let node = newTree.data;
 
-          </span>
+                    for (const move of path) {
+                        node = node.children[move];
+                    }
 
+                    node.comment = e.target.value;
 
-          <span>
+                    setTree(newTree);
 
-          {
-          typeof move.score === "number"
-          ?
-          (
-          move.score > 0
-          ?
-          `+${(move.score/100).toFixed(2)}`
-          :
-          `${(move.score/100).toFixed(2)}`
-          )
-          :
-          move.score
-          }
+                }}
+            />
 
-          </span>
-
-
-          </div>
-
-        ))
-
-        }
-
-        </div>
-
-      </aside>
+        </aside>
+      
 
     </div>
   );
