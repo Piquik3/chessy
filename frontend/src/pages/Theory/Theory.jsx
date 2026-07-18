@@ -294,6 +294,7 @@ function Theory() {
             }
             style={{
               width: "100%",
+              background: "#222",
               padding: "8px",
               marginBottom: "10px",
               boxSizing: "border-box",
@@ -310,6 +311,7 @@ function Theory() {
             }
             style={{
               width: "100%",
+              background: "#222",
               padding: "8px",
               boxSizing: "border-box",
             }}
@@ -626,6 +628,7 @@ function Theory() {
                 rows={8}
                 style={{
                     width: "100%",
+                    background: "#222",
                     padding: "10px",
                     boxSizing: "border-box",
                     resize: "vertical"
