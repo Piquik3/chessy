@@ -540,10 +540,6 @@ function Theory() {
 
             <h2>Move annotation</h2>
 
-            <p style={{ opacity: 0.6 }}>
-                {node?.move || "Initial position"}
-            </p>
-
             <hr />
 
             <h3>Classification</h3>
@@ -578,7 +574,10 @@ function Theory() {
                                     node = node.children[move];
                                 }
 
-                                node.type = type.value;
+                                node.type =
+                                node.type === type.value
+                                    ? ""
+                                    : type.value;
 
                                 setTree(newTree);
 

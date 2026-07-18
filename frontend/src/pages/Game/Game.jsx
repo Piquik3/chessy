@@ -23,6 +23,7 @@ function Game() {
   const isPlayerTurn =
     (playerColor === "white" && game.turn() === "w") ||
     (playerColor === "black" && game.turn() === "b");
+  
 
   function playBot(nodeRef, gameRef) {
     const moves = Object.entries(
@@ -47,8 +48,62 @@ function Game() {
 
     setGame(g);
     setNode(nextNode);
-    setHistory((h) => [...h, move]);
+    setHistory((h) => [
+    ...h,
+    {
+        ...move,
+        type: nextNode.type,
+        comment: nextNode.comment
+    }
+]);
   }
+
+  function getMoveSymbol(type) {
+
+    switch(type){
+
+        case "brillant":
+            return "!!";
+
+        case "good":
+            return "!";
+
+        case "interesting":
+            return "!?";
+
+        case "inaccuracy":
+            return "?!";
+
+        case "mistake":
+            return "?";
+
+        case "blunder":
+            return "??";
+
+        default:
+            return "";
+    }
+
+}
+
+function getMoveColor(type) {
+    switch (type) {
+        case "brillant":
+            return "#00c853";
+        case "good":
+            return "#4caf50";
+        case "interesting":
+            return "#2196f3";
+        case "inaccuracy":
+            return "#ff9800";
+        case "mistake":
+            return "#f44336";
+        case "blunder":
+            return "#b71c1c";
+        default:
+            return "white";
+    }
+}
 
   function onDrop(sourceSquare, targetSquare) {
     if (!isPlayerTurn) return false;
@@ -61,14 +116,21 @@ function Game() {
     const nextNode = node?.children?.[move.san];
 
     if (!nextNode) {
-      setMessage("❌ Bad move !");
+      setMessage("❌ Incorrect move !");
       return false;
     }
 
-    setMessage("✅ Good move !");
+    setMessage("✅ Correct move !");
 
     setGame(g);
-    setHistory((h) => [...h, move]);
+    setHistory((h) => [
+    ...h,
+    {
+        ...move,
+        type: nextNode.type,
+        comment: nextNode.comment
+    }
+]);
     setNode(nextNode);
 
     if (
@@ -151,6 +213,23 @@ function Game() {
         <h2>Repertoire Training</h2>
 
         <p>{message}</p>
+
+        <hr />
+
+        <h3>Comment</h3>
+
+        <div
+            style={{
+                whiteSpace: "pre-wrap",
+                background: "#222",
+                padding: "10px",
+                borderRadius: "8px",
+                minHeight: "100px"
+            }}
+        >
+            {node?.comment || "No comment for this move."}
+        </div>
+
         <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: "10px" }}>
     
             <button onClick={resetGame}>
@@ -188,12 +267,42 @@ function Game() {
             }, [])
             .map((pair, i) => (
               <div key={i} className="history-row">
-                <span className="move-index">{i + 1}.</span>
+                <span
+                    className="move-white"
+                >
+                    ♙ {pair[0]?.san || pair[0]}
 
-                <span className="move-white">♙ {pair[0]?.san || pair[0]}</span>
+                    <span
+                        style={{
+                            color: getMoveColor(pair[0]?.type),
+                            fontWeight: "bold",
+                            marginLeft: "5px"
+                        }}
+                    >
+                        {getMoveSymbol(pair[0]?.type)}
+                    </span>
+
+                </span>
+
 
                 <span className="move-black">
-                  {pair[1] ? `♟ ${pair[1]?.san || pair[1]}` : ""}
+
+                    {pair[1] && (
+                        <>
+                            ♟ {pair[1]?.san || pair[1]}
+
+                            <span
+                                style={{
+                                    color: getMoveColor(pair[1]?.type),
+                                    fontWeight: "bold",
+                                    marginLeft: "5px"
+                                }}
+                            >
+                                {getMoveSymbol(pair[1]?.type)}
+                            </span>
+                        </>
+                    )}
+
                 </span>
               </div>
             ))}
