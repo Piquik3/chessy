@@ -229,7 +229,7 @@ function getMoveColor(type) {
                 minHeight: "100px"
             }}
         >
-            {node?.comment || "No comment for this move."}
+            {node?.comment || ""}
         </div>
 
         <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -272,7 +272,7 @@ function getMoveColor(type) {
                 <span
                     className="move-white"
                 >
-                    ♙ {pair[0]?.san || pair[0]}
+                    {pair[0]?.san || pair[0]}
 
                     <span
                         style={{
@@ -291,7 +291,7 @@ function getMoveColor(type) {
 
                     {pair[1] && (
                         <>
-                            ♟ {pair[1]?.san || pair[1]}
+                           {pair[1]?.san || pair[1]}
 
                             <span
                                 style={{
